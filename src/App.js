@@ -11,6 +11,8 @@ class App extends React.Component {
       newBlog:'',
       username: '',
       password: '',
+      message: null,
+      error: null,
       user: null
 
     }
@@ -74,7 +76,8 @@ class App extends React.Component {
       .then(newBlog => {
         this.setState({
           blogs: this.state.blogs.concat(newBlog),
-          newBlog: ''
+          newBlog: '',
+          message: 'onnistunut lisääminen'
         })
       })
   }
@@ -85,6 +88,9 @@ class App extends React.Component {
 
     const loginForm = () => (
       <div>
+        <Notification message={this.state.error} />
+        <Notification message={this.state.message} />
+
         <h2>Kirjaudu</h2>
 
         <form onSubmit={this.login}>
@@ -129,6 +135,7 @@ class App extends React.Component {
 
     if (this.state.user === null) {
       return (
+        
         loginForm()
 
       )
@@ -137,6 +144,9 @@ class App extends React.Component {
       <div>
 
         <h2>blogs</h2>
+        <Notification message={this.state.message} />
+        <Notification message={this.state.error} />
+        
         <p>{this.state.username} is logged in</p><button>logout</button>
         {this.state.blogs.map(blog =>
           <Blog key={blog._id} blog={blog} />
